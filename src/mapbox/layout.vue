@@ -4,7 +4,7 @@
       ><el-row>
             <el-col :span="24"
               ><div class="transparent"
-            /><control_button/></el-col></el-row>
+            /><popover/></el-col></el-row>
       </el-header>
     <el-container>
       <el-aside width="200px">Aside</el-aside>
@@ -23,14 +23,13 @@
 
 <script lang="js">
 import { reactive,toRefs,onMounted} from 'vue'
-import control_button from './animate_line_control.vue'
+import control from './contr./ff/animate_line_control.vue
+import popover from './butt/popover'
 import animate_line from '../util/animate_line.js'
-import control from './control'
-import move from './move.js'
 export default {
     name: 'map_first',
     components: {
-      control_button,
+      popover
     },
       setup() {
         let map=null;

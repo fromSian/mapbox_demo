@@ -10,6 +10,7 @@ export default function () {
 
   // Add zoom and rotation controls to the map.
   map.addControl(new mapboxgl.NavigationControl());
+
   return {
     map
   }

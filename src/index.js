@@ -3,7 +3,7 @@ import ElementPlus from 'element-plus'
 import '../node_modules/element-plus/dist/index.css'
 // import * as Vue from 'vue'
 import App from './App.vue'
-// import store from './store/init';
+import store from './store/init';
 // import router from './router/init';
 // import 'xe-utils';
 // import VXETable from 'vxe-table'
@@ -18,5 +18,5 @@ const app=createApp(App);
 //       zIndex: 3000
 //     }
 //   })
-app.use(ElementPlus)
+app.use(ElementPlus).use(store)
 app.mount('#app');

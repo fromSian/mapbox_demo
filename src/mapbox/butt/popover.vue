@@ -32,15 +32,16 @@
 
 <script lang="js">
 import { reactive,toRefs,onMounted,toRaw} from 'vue'
+import { useStore } from "vuex";
 import layers from './kindslayers.js'
 export default {
     name: '',
-    props: ["map"],
       setup(props) {
           const data = reactive({
             visible:false,
                 speed:0,
-          })
+          });
+          const store = useStore();
           onMounted(() => {
 
           })
@@ -48,7 +49,78 @@ export default {
           const get_line_status=()=>{
             data.visible = !data.visible
             console.log('visible',data.visible);
-            
+            let map =toRaw(store.state.map)
+            console.log('map',map);
+            map.addControl(new mapboxgl.FullscreenControl());
+            map.loadImage(
+'https://docs.mapbox.com/mapbox-gl-js/assets/cat.png',
+(error, image) => {
+if (error) throw error;
+
+// Add the image to the map style.
+map.addImage('cat', image);
+
+// Add a data source containing one point feature.
+map.addSource('point', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features': [
+{
+'type': 'Feature',
+'geometry': {
+'type': 'Point',
+'coordinates': [-77.4144, 25.0759]
+}
+}
+]
+}
+});
+
+// Add a layer to use the image to represent the data.
+map.addLayer({
+'id': 'points',
+'type': 'symbol',
+'source': 'point', // reference the data source
+'layout': {
+'icon-image': 'cat', // reference the image
+'icon-size': 0.25
+}
+});
+}
+);
+let geojson = {
+  "type": "FeatureCollection",
+  "features": [{
+  "type": "Feature",
+  "geometry": {
+  "type": "LineString",
+  "coordinates": [
+  [0, 0]
+  ]
+  }
+  }]
+  };
+  map.addSource("line", {
+    type: "geojson",
+    data: geojson,
+  });
+
+  // add the line which will be modified in the animation
+  map.addLayer({
+    id: "line-animation",
+    type: "line",
+    source: "line",
+    layout: {
+      "line-cap": "round",
+      "line-join": "round",
+    },
+    paint: {
+      "line-color": "#ed6498",
+      "line-width": 5,
+      "line-opacity": 0.8,
+    },
+  });
           }
           return {
               ...refData,
